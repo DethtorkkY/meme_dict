@@ -16,8 +16,9 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
+    if message.content.startswith('!deleteme'):
+            msg = await message.channel.send('I will delete myself now...')
+            await msg.delete()
     if message.content.startswith('Привет') or message.content.startswith('привет') or message.content.startswith('пр') or message.content.startswith('Пр') or message.content.startswith('Ку') or message.content.startswith('ку'):
         await message.channel.send("Дарова!")
     elif message.content.startswith('Пока') or message.content.startswith('пока') or message.content.startswith('пок') or message.content.startswith('Пок') or message.content.startswith('покеда') or message.content.startswith('Покеда'):
@@ -36,5 +37,12 @@ async def on_message(message):
         await message.channel.send(f'{gen_emodji(10)}')
 #    else:
 #        await message.channel.send(message.content)
+async def on_message_delete(self, message):
+    msg = f'{message.author} has deleted the message: {message.content}'
+    await message.channel.send(msg)
 
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = MyClient(intents=intents)
 client.run("token")
